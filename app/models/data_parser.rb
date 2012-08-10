@@ -16,9 +16,16 @@ class DataParser
 
 		if valid?
 			CSV.foreach(self.path, {:headers => true, :header_converters => :symbol, :col_sep => "\t", :skip_blanks => true}) do |row|
-			#	puts row.class
-			#	puts row.inspect
-			# puts row[:purchaser_name]
+				#	puts row.class
+				#	puts row.inspect
+				# puts row[:purchaser_name]
+
+				# find or create item
+				# find or create merchant
+        # find or update inventory
+
+				# find or create customer
+				# find or update transaction
 
 				parsed_rows += 1
 			end
