@@ -1,36 +1,50 @@
 require 'csv'
 
 class DataParser
-	include ActiveModel::Validations
+  include ActiveModel::Validations
 
-	attr_accessor :path
+  attr_accessor :path
 
-	validates :path, :presence => true
+  validates :path, :presence => true
 
   def initialize(attributes = {})
     attributes.each { |key, val| send("#{key}=", val) if respond_to?("#{key}=") }
   end
 
-	def process
-		parsed_rows = 0
+  def process
+    parsed_rows = 0
 
-		if valid?
-			CSV.foreach(self.path, {:headers => true, :header_converters => :symbol, :col_sep => "\t", :skip_blanks => true}) do |row|
-				#	puts row.class
-				#	puts row.inspect
-				# puts row[:purchaser_name]
+    if valid?
+      CSV.foreach(self.path, {:headers => true, :header_converters => :symbol, :col_sep => "\t", :skip_blanks => true}) do |row|
 
-				# find or create item
-				# find or create merchant
-        # find or update inventory
+        ActiveRecord::Base.transaction do
+          item = Item.find_or_create_by_name(
+            :name => row[:item_description],
+          :price => row[:item_price]
+          )
 
-				# find or create customer
-				# find or update transaction
+          merchant = Merchant.find_or_create_by_name(
+            :name => row[:merchant_name],
+            :address => row[:merchant_address]
+          )
 
-				parsed_rows += 1
-			end
-		end
+          merchant.items << item unless merchant.items.include? item
 
-		parsed_rows
-	end
+          customer = Customer.find_or_create_by_name(
+          :name => row[:purchaser_name]
+          )
+
+          transaction = Transaction.create(
+            :customer => customer,
+            :item => item,
+            :count => row[:purchase_count].to_i
+          )
+
+          parsed_rows += 1
+        end
+      end
+    end
+
+    parsed_rows
+  end
 end

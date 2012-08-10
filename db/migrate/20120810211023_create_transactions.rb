@@ -8,5 +8,7 @@ class CreateTransactions < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :transactions, [ :customer_id, :item_id ]
   end
 end

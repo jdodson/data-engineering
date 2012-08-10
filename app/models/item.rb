@@ -5,6 +5,8 @@ class Item < ActiveRecord::Base
   has_many :inventories
   has_many :merchants, :through => :inventories
 
+  attr_accessible :name, :price
+
   validates :name, :presence => true
   validates :price, :presence => true
   validates :price, :numericality => true

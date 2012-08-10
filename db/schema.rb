@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(:version => 20120810211127) do
     t.datetime "updated_at",  :null => false
   end
 
+  add_index "inventories", ["merchant_id", "item_id"], :name => "index_inventories_on_merchant_id_and_item_id", :unique => true
+
   create_table "items", :force => true do |t|
     t.string   "name",       :null => false
     t.decimal  "price",      :null => false
@@ -48,5 +50,7 @@ ActiveRecord::Schema.define(:version => 20120810211127) do
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
   end
+
+  add_index "transactions", ["customer_id", "item_id"], :name => "index_transactions_on_customer_id_and_item_id"
 
 end
