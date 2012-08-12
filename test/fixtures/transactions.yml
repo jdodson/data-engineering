@@ -1,3 +1,4 @@
 marios_bike: 
  customer: mario
  item: bike
+ count: 1

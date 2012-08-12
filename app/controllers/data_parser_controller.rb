@@ -1,6 +1,6 @@
 class DataParserController < ApplicationController
   def index
-    @gross = 0.0 #FIX ME!
+    @gross = Transaction.gross
   end
 
   def new
