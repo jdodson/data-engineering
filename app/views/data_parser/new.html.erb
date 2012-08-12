@@ -1,0 +1,9 @@
+Import Data from Tab Delimited File:
+
+<%= form_for @parser,:url => data_parser_index_path do |p| %>
+  <%= render "layouts/model_errors", :model => @parser %>
+
+  <%= p.file_field :file %>
+  <br/>
+  <%= p.submit "Process Form" %>
+<% end %>

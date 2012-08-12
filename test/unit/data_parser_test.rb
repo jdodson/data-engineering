@@ -2,19 +2,21 @@ require 'test_helper'
 
 class DataParserTest < ActiveSupport::TestCase
   def setup
-    @file_path = "#{Rails.root}/test/fixtures/example_input.tab"
-    @parser = DataParser.new(:path => @file_path)
+    path = "#{Rails.root}/test/fixtures/example_input.tab"
+    @file = Rack::Test::UploadedFile.new(path, "text/plain")
+    @parser = DataParser.new(:file => @file)
   end
 
   test "initialization sets file" do
-    assert_equal @file_path, @parser.path
+    assert_equal @file, @parser.file
   end
 
   test "parse nothing" do
-    parser = DataParser.new
-    assert !parser.valid?, "should not be valid, no path!"
-    assert_equal 0, parser.process
-    assert parser.errors.present?
+    [ DataParser.new, DataParser.new(nil) ].each do |nothing_case|
+      assert !nothing_case.valid?, "should not be valid, no path!"
+      assert_equal 0, nothing_case.process
+      assert nothing_case.errors.present?
+    end
   end
 
   test "process responds correctly" do

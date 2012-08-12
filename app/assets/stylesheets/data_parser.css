@@ -1,0 +1,13 @@
+body {
+  font-family: 'Open Sans', serif;
+}
+
+.menu {
+  margin: 0 0 1em 0;
+}
+
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}

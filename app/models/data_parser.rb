@@ -2,20 +2,26 @@ require 'csv'
 
 class DataParser
   include ActiveModel::Validations
+  include ActiveModel::Conversion
+  extend ActiveModel::Naming
 
-  attr_accessor :path
+  attr_accessor :file
 
-  validates :path, :presence => true
+  validates :file, :presence => true
 
   def initialize(attributes = {})
-    attributes.each { |key, val| send("#{key}=", val) if respond_to?("#{key}=") }
+    attributes.each { |key, val| send("#{key}=", val) if respond_to?("#{key}=") } if attributes.present?
+
+    if self.file.respond_to?(:tempfile)
+      self.file = self.file.tempfile
+    end
   end
 
   def process
     parsed_rows = 0
 
     if valid?
-      CSV.foreach(self.path, {:headers => true, :header_converters => :symbol, :col_sep => "\t", :skip_blanks => true}) do |row|
+      CSV.foreach(self.file, {:headers => true, :header_converters => :symbol, :col_sep => "\t", :skip_blanks => true}) do |row|
 
         ActiveRecord::Base.transaction do
           item = Item.find_or_create_by_name(
@@ -47,4 +53,8 @@ class DataParser
 
     parsed_rows
   end
+
+  def persisted?
+    false
+  end  
 end
