@@ -12,6 +12,7 @@ I moved the example_input.tab from /example_input.tab to /text/fixtures/example_
 2. You will also need to run bundler to setup the appropriate Ruby Gems.  You can do that by running bundler direct VIA "bundle"
 
 3. After that you will need to setup the development and test databases and you can do that with the following rake: "rake db:drop ; rake db:create ; rake db:migrate ; rake db:test:load"
+3.1 As an aside, the application is currently using SQLite.
 
 4. At this point I would verify the application is in the best working state by running all the tests.  You can do that by running "rake test"
 4.1 If you have failures look at your env and gems installed, all tests should pass on a clean pull.
