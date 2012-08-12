@@ -1,6 +1,6 @@
 class DataParserController < ApplicationController
   def index
-    @gross = Transaction.gross
+    @gross = DataReporter.gross
   end
 
   def new
