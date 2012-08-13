@@ -26,7 +26,7 @@ class DataParser
         ActiveRecord::Base.transaction do
           item = Item.find_or_create_by_name!(
             :name => row[:item_description],
-          :price => row[:item_price]
+            :price => row[:item_price]
           )
 
           merchant = Merchant.find_or_create_by_name!(
@@ -37,7 +37,7 @@ class DataParser
           merchant.items << item unless merchant.items.include? item
 
           customer = Customer.find_or_create_by_name!(
-          :name => row[:purchaser_name]
+            :name => row[:purchaser_name]
           )
 
           transaction = Transaction.create!(
@@ -56,5 +56,5 @@ class DataParser
 
   def persisted?
     false
-  end  
+  end
 end

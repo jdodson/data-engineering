@@ -9,7 +9,7 @@ class DataParserController < ApplicationController
 
   def create
     @parser = DataParser.new(params[:data_parser])
-    
+
     if @parser.valid?
       flash[:notice] = "Processed #{@parser.process} rows"
       redirect_to root_path

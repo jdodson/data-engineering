@@ -48,7 +48,7 @@ class UserUploadDataTest < ActionDispatch::IntegrationTest
     find_no_profit
   end
 
-private
+  private
 
   def find_no_profit
     get root_path
